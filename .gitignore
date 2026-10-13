@@ -1,0 +1,33 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+backend/.env
+data/
+backend/data/
+*.db
+.pytest_cache/
+node_modules/
+.DS_Store
+# API keys and local secrets
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# Generated repository and vector data
+backend/data/repos/
+backend/data/vector_store/
+chroma_db/
+.chromadb/
+
+# Local Python environments
+env/
+# Local backups - keep out of GitHub
+*.bak
+*.backup
+evaluation/dataset_backup.json
+evaluation/run_evaluation_backup.py

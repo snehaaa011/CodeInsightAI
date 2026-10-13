@@ -1,0 +1,927 @@
+{
+  "description": "Custom evaluation benchmark for CodeInsight AI. The benchmark evaluates repository understanding across different programming languages, architectures, and project types using 8 open-source repositories and 10 questions per repository.",
+  "repositories": [
+    {
+      "repo_url": "https://github.com/tiangolo/full-stack-fastapi-template",
+      "name": "Full Stack FastAPI Template",
+      "language": "Python/TypeScript",
+      "questions": [
+  {
+    "id": "FST-01",
+    "category": "Architecture",
+    "question": "What is the overall architecture of this repository, and how are the backend, frontend, database, and supporting services organized?",
+    "reference_answer": "The repository is a full-stack application organized around a FastAPI backend and a React TypeScript frontend. The backend uses SQLModel for database interaction with PostgreSQL, while the frontend uses React, TypeScript, Vite, and related UI tooling. Docker Compose coordinates supporting services and deployment, with Traefik used for reverse-proxy and HTTPS-related routing.",
+    "gold_source_files": [
+      "README.md",
+      "compose.yml",
+      "backend/README.md",
+      "frontend/README.md"
+    ]
+  },
+  {
+    "id": "FST-02",
+    "category": "Implementation",
+    "question": "Where is user authentication implemented in the backend, and what authentication mechanism does the application use?",
+    "reference_answer": "Authentication is implemented in the backend authentication-related API and security modules. The application uses JWT-based authentication, with password hashing and token-based access protection for authenticated users.",
+    "gold_source_files": [
+      "backend/app/api/",
+      "backend/app/core/",
+      "backend/app/models.py"
+    ]
+  },
+  {
+    "id": "FST-03",
+    "category": "Function/Class",
+    "question": "Which backend files define the database models and CRUD operations, and what roles do they play?",
+    "reference_answer": "The backend models are defined in backend/app/models.py, while CRUD operations are implemented in backend/app/crud.py. The models define the SQLModel data structures and database tables, while the CRUD module contains reusable create, read, update, and delete operations.",
+    "gold_source_files": [
+      "backend/app/models.py",
+      "backend/app/crud.py"
+    ]
+  },
+  {
+    "id": "FST-04",
+    "category": "Data Flow",
+    "question": "What happens in the application when a frontend user makes an API request to retrieve application data?",
+    "reference_answer": "The React frontend sends a request to the FastAPI backend. The corresponding API route processes the request and uses the backend data-access logic and SQLModel models to interact with PostgreSQL. The resulting data is returned through the FastAPI API and consumed by the frontend.",
+    "gold_source_files": [
+      "frontend/",
+      "backend/app/api/",
+      "backend/app/crud.py",
+      "backend/app/models.py"
+    ]
+  },
+  {
+    "id": "FST-05",
+    "category": "Dependency/Relationship",
+    "question": "How are the FastAPI API layer, CRUD layer, SQLModel models, and PostgreSQL database related to each other?",
+    "reference_answer": "The API layer exposes application endpoints and handles requests. It uses CRUD functions for database operations, while the SQLModel models define the database entities and schemas. SQLModel provides the ORM/database interaction layer with PostgreSQL as the underlying database.",
+    "gold_source_files": [
+      "backend/app/api/",
+      "backend/app/crud.py",
+      "backend/app/models.py",
+      "backend/README.md"
+    ]
+  },
+  {
+    "id": "FST-06",
+    "category": "Configuration",
+    "question": "How is the repository configured to run its services locally, and which configuration files control the Docker-based environment?",
+    "reference_answer": "The repository uses Docker Compose for its service environment. compose.yml contains the shared Compose configuration, while compose.override.yml provides local development settings. Environment variables are used to configure application and service behavior.",
+    "gold_source_files": [
+      "compose.yml",
+      "compose.override.yml",
+      ".env",
+      "development.md"
+    ]
+  },
+  {
+    "id": "FST-07",
+    "category": "Cross-file Reasoning",
+    "question": "How does the frontend communicate with the backend during development, and how does this differ from the production-style setup where the frontend is served by FastAPI?",
+    "reference_answer": "During development, the React/Vite frontend runs separately and communicates with the FastAPI backend at its configured backend URL. When the frontend is built, its generated files are placed under the backend application and FastAPI can serve the frontend and API from the same application/domain.",
+    "gold_source_files": [
+      "development.md",
+      "frontend/",
+      "backend/app/",
+      "compose.yml"
+    ]
+  },
+  {
+    "id": "FST-08",
+    "category": "Behavioral",
+    "question": "What happens when a user successfully authenticates, and how is the authenticated session represented for subsequent API requests?",
+    "reference_answer": "The authentication system validates the user's credentials and uses JWT-based authentication. The resulting token is used to represent the authenticated user and authorize subsequent protected API requests.",
+    "gold_source_files": [
+      "backend/app/api/",
+      "backend/app/core/",
+      "frontend/"
+    ]
+  },
+  {
+    "id": "FST-09",
+    "category": "Unanswerable",
+    "question": "What exact password does the first administrator account use when the application is deployed in production?",
+    "reference_answer": "The repository does not provide a single production administrator password. Production credentials should be supplied through configuration or deployment secrets rather than treated as a fixed repository value.",
+    "gold_source_files": [
+      "README.md",
+      "deployment.md",
+      ".env"
+    ]
+  },
+  {
+    "id": "FST-10",
+    "category": "Complex Reasoning",
+    "question": "Trace the major components involved when the full application is deployed with Docker Compose, from an incoming request through the reverse proxy to the application and database, and explain the role of the frontend in this flow.",
+    "reference_answer": "In the Docker-based deployment, Traefik acts as the reverse proxy and routes incoming traffic to the appropriate application service. The FastAPI backend handles API requests and interacts with PostgreSQL through SQLModel. The React frontend is built and served as part of the application setup, while Docker Compose coordinates the backend, database, proxy, and other supporting services.",
+    "gold_source_files": [
+      "compose.yml",
+      "compose.deploy.yml",
+      "deployment-docker-compose.md",
+      "backend/app/",
+      "frontend/"
+    ]
+  }
+]
+    },
+    {
+      "repo_url": "https://github.com/psf/requests",
+      "name": "Requests",
+      "language": "Python",
+      "questions": [
+  {
+    "id": "REQ-01",
+    "category": "Architecture",
+    "question": "Explain the overall architecture of the Requests repository and identify the main modules involved in making HTTP requests.",
+    "reference_answer": "Requests is organized around a high-level API, sessions, request/response models, and transport adapters. The main modules include api.py for convenience request functions, sessions.py for Session and request orchestration, models.py for Request and Response objects, and adapters.py for the transport layer.",
+    "gold_source_files": [
+      "src/requests/api.py",
+      "src/requests/sessions.py",
+      "src/requests/models.py",
+      "src/requests/adapters.py"
+    ]
+  },
+  {
+    "id": "REQ-02",
+    "category": "Implementation",
+    "question": "Which class is responsible for sending HTTP requests through the transport layer, and where is it implemented?",
+    "reference_answer": "HTTPAdapter is the primary transport adapter responsible for sending HTTP requests. It is implemented in src/requests/adapters.py.",
+    "gold_source_files": [
+      "src/requests/adapters.py"
+    ]
+  },
+  {
+    "id": "REQ-03",
+    "category": "Function/Class",
+    "question": "Where is the Session class defined, and what is its primary responsibility?",
+    "reference_answer": "The Session class is defined in src/requests/sessions.py. It manages persistent settings such as cookies, headers, authentication, connection configuration, and mounted transport adapters while providing methods for sending requests.",
+    "gold_source_files": [
+      "src/requests/sessions.py"
+    ]
+  },
+  {
+    "id": "REQ-04",
+    "category": "Data Flow",
+    "question": "What happens internally when a user calls requests.get()?",
+    "reference_answer": "The convenience get() function in api.py creates or uses a request session and delegates the request to the session's request handling. The Session prepares the request, selects the appropriate mounted adapter, and sends it through the adapter, which performs the underlying HTTP operation and returns a Response.",
+    "gold_source_files": [
+      "src/requests/api.py",
+      "src/requests/sessions.py",
+      "src/requests/adapters.py",
+      "src/requests/models.py"
+    ]
+  },
+  {
+    "id": "REQ-05",
+    "category": "Dependency/Relationship",
+    "question": "How are Session, HTTPAdapter, PreparedRequest, and Response related during an HTTP request?",
+    "reference_answer": "Session coordinates the request lifecycle. A Request is prepared into a PreparedRequest, which is passed through the selected HTTPAdapter. The adapter performs the network operation and produces data that is represented by a Response object returned to the caller.",
+    "gold_source_files": [
+      "src/requests/sessions.py",
+      "src/requests/adapters.py",
+      "src/requests/models.py"
+    ]
+  },
+  {
+    "id": "REQ-06",
+    "category": "Configuration",
+    "question": "How does Requests determine which transport adapter should handle a URL?",
+    "reference_answer": "A Session maintains mounted transport adapters associated with URL prefixes. When sending a request, the Session selects the adapter whose mounted prefix matches the request URL, allowing different protocols or URL patterns to use different transport implementations.",
+    "gold_source_files": [
+      "src/requests/sessions.py",
+      "src/requests/adapters.py"
+    ]
+  },
+  {
+    "id": "REQ-07",
+    "category": "Cross-file Reasoning",
+    "question": "How do the convenience functions in api.py connect to the Session implementation in sessions.py?",
+    "reference_answer": "The convenience functions such as get() and post() in api.py provide a simple top-level interface. They delegate request processing to a Session, which performs preparation, adapter selection, sending, and response handling.",
+    "gold_source_files": [
+      "src/requests/api.py",
+      "src/requests/sessions.py"
+    ]
+  },
+  {
+    "id": "REQ-08",
+    "category": "Behavioral",
+    "question": "What happens to a request when the URL uses HTTPS instead of HTTP?",
+    "reference_answer": "The Session selects the transport adapter mounted for the HTTPS URL prefix. The HTTPAdapter then handles the HTTPS request using its underlying connection and TLS configuration.",
+    "gold_source_files": [
+      "src/requests/sessions.py",
+      "src/requests/adapters.py"
+    ]
+  },
+  {
+    "id": "REQ-09",
+    "category": "Unanswerable",
+    "question": "What exact response body will requests.get() return when called against an arbitrary external website that is not part of this repository?",
+    "reference_answer": "The repository cannot determine the exact response body from an arbitrary external website because that depends on the external server, request parameters, network conditions, and response state.",
+    "gold_source_files": [
+      "src/requests/api.py",
+      "src/requests/sessions.py"
+    ]
+  },
+  {
+    "id": "REQ-10",
+    "category": "Complex Reasoning",
+    "question": "Trace the complete flow of a GET request from requests.get() to the network transport and back to the caller, identifying the major functions, classes, and files involved.",
+    "reference_answer": "The flow starts with get() in api.py, which delegates to a Session. Session.request() creates the request and Session.send() prepares and sends it. The appropriate adapter is selected based on the URL, and HTTPAdapter.send() performs the transport operation. The resulting network data is converted into a Response object in models.py and returned through the Session and convenience API back to the caller.",
+    "gold_source_files": [
+      "src/requests/api.py",
+      "src/requests/sessions.py",
+      "src/requests/adapters.py",
+      "src/requests/models.py"
+    ]
+  }
+]
+    },
+    {
+      "repo_url": "https://github.com/expressjs/express",
+      "name": "Express",
+      "language": "JavaScript",
+      "questions": [
+  {
+    "id": "EXP-01",
+    "category": "Architecture",
+    "question": "Explain the overall architecture of the Express repository and identify the main components involved in handling an HTTP request.",
+    "reference_answer": "Express is organized around the application object, routing, middleware, request and response extensions, and the Router implementation. The main components include lib/application.js, lib/express.js, lib/router, lib/request.js, lib/response.js, and middleware-related modules.",
+    "gold_source_files": [
+      "lib/express.js",
+      "lib/application.js",
+      "lib/request.js",
+      "lib/response.js",
+      "lib/router/"
+    ]
+  },
+  {
+    "id": "EXP-02",
+    "category": "Implementation",
+    "question": "Where is routing implemented in Express, and which component is responsible for matching incoming requests to routes?",
+    "reference_answer": "Routing is implemented through the Router component. The router maintains a stack of layers and processes incoming requests to determine which route or middleware matches the request path and method.",
+    "gold_source_files": [
+      "lib/express.js",
+      "lib/application.js",
+      "lib/router/"
+    ]
+  },
+  {
+    "id": "EXP-03",
+    "category": "Function/Class",
+    "question": "Where is the main Express application object created, and what role does it play?",
+    "reference_answer": "The Express application object is created through the createApplication function in lib/express.js. It creates the application function and mixes in methods and properties defined by the application module, allowing the object to register middleware, routes, settings, and request handling behavior.",
+    "gold_source_files": [
+      "lib/express.js",
+      "lib/application.js"
+    ]
+  },
+  {
+    "id": "EXP-04",
+    "category": "Data Flow",
+    "question": "What happens internally when an HTTP request reaches an Express application?",
+    "reference_answer": "The application receives the request and passes it into the configured middleware and routing pipeline. The router examines the request and traverses its layers, invoking matching middleware or route handlers. The request and response objects are extended by Express, and the final response is produced by the applicable handler or middleware.",
+    "gold_source_files": [
+      "lib/application.js",
+      "lib/router/",
+      "lib/request.js",
+      "lib/response.js"
+    ]
+  },
+  {
+    "id": "EXP-05",
+    "category": "Dependency/Relationship",
+    "question": "How are the Express application, Router, middleware layers, request object, and response object related?",
+    "reference_answer": "The Express application owns or delegates to a Router for request processing. The Router maintains middleware and route layers and invokes matching handlers. Express extends the incoming request and response objects with framework-specific functionality that those handlers use.",
+    "gold_source_files": [
+      "lib/application.js",
+      "lib/router/",
+      "lib/request.js",
+      "lib/response.js"
+    ]
+  },
+  {
+    "id": "EXP-06",
+    "category": "Configuration",
+    "question": "How does an Express application store and manage application settings such as environment and configuration values?",
+    "reference_answer": "The Express application maintains a settings collection and provides methods for configuring and retrieving application settings. The application module initializes default settings and exposes methods such as set and get for modifying and reading them.",
+    "gold_source_files": [
+      "lib/application.js"
+    ]
+  },
+  {
+    "id": "EXP-07",
+    "category": "Cross-file Reasoning",
+    "question": "How does calling app.get() connect the Express application layer with the Router implementation?",
+    "reference_answer": "The application layer exposes HTTP-method helpers such as app.get(). These methods delegate route registration to the application's router, where the route path, HTTP method, and callback handlers are represented as routing layers and later evaluated when a request arrives.",
+    "gold_source_files": [
+      "lib/application.js",
+      "lib/express.js",
+      "lib/router/"
+    ]
+  },
+  {
+    "id": "EXP-08",
+    "category": "Behavioral",
+    "question": "What happens when multiple middleware functions are registered for the same Express application and request path?",
+    "reference_answer": "Express processes the middleware through the router's layer stack in registration order when the layers match the incoming request. Each middleware can perform work and call next() to continue processing, allowing subsequent middleware or route handlers to execute.",
+    "gold_source_files": [
+      "lib/application.js",
+      "lib/router/"
+    ]
+  },
+  {
+    "id": "EXP-09",
+    "category": "Unanswerable",
+    "question": "What exact JSON response will an Express application return for an endpoint defined by an application developer outside this repository?",
+    "reference_answer": "The repository cannot determine the exact response because the response depends on the application's external route definitions, middleware, handler implementation, and runtime data.",
+    "gold_source_files": [
+      "lib/application.js",
+      "lib/router/"
+    ]
+  },
+  {
+    "id": "EXP-10",
+    "category": "Complex Reasoning",
+    "question": "Trace the major steps from creating an Express application to registering a route and processing a matching HTTP request.",
+    "reference_answer": "The process begins with createApplication in lib/express.js, which creates the application object and connects it with application methods. Routes and middleware are registered through application methods and ultimately stored in the router's layer structure. When a request arrives, the application passes it through the router, which matches the request against its layers and invokes the appropriate middleware or route handler. Express's request and response extensions provide framework-specific APIs during this process.",
+    "gold_source_files": [
+      "lib/express.js",
+      "lib/application.js",
+      "lib/router/",
+      "lib/request.js",
+      "lib/response.js"
+    ]
+  }
+]
+    },
+    {
+      "repo_url": "https://github.com/pallets/flask",
+      "name": "Flask",
+      "language": "Python",
+      "questions": [
+  {
+    "id": "FLK-01",
+    "category": "Architecture",
+    "question": "Explain the overall architecture of the Flask repository and identify the major components involved in creating and running a Flask application.",
+    "reference_answer": "Flask is organized around the Flask application class, request and response handling, routing, sessions, templating, and CLI support. The main implementation is distributed across modules such as app.py, ctx.py, globals.py, request.py, wrappers.py, sessions.py, and templating.py.",
+    "gold_source_files": [
+      "src/flask/app.py",
+      "src/flask/ctx.py",
+      "src/flask/globals.py",
+      "src/flask/request.py",
+      "src/flask/wrappers.py"
+    ]
+  },
+  {
+    "id": "FLK-02",
+    "category": "Implementation",
+    "question": "Where is the Flask application class implemented, and what are its main responsibilities?",
+    "reference_answer": "The Flask application class is implemented in src/flask/app.py. It represents the application, manages configuration, URL routing, request dispatching, error handling, sessions, template rendering, and integration with the WSGI interface.",
+    "gold_source_files": [
+      "src/flask/app.py"
+    ]
+  },
+  {
+    "id": "FLK-03",
+    "category": "Function/Class",
+    "question": "Which class represents an incoming HTTP request in Flask, and where is it defined?",
+    "reference_answer": "The Request class represents an incoming HTTP request and is defined in src/flask/wrappers.py. It extends Werkzeug's request implementation with Flask-specific behavior.",
+    "gold_source_files": [
+      "src/flask/wrappers.py",
+      "src/flask/app.py"
+    ]
+  },
+  {
+    "id": "FLK-04",
+    "category": "Data Flow",
+    "question": "What happens inside Flask when an HTTP request is received by the application?",
+    "reference_answer": "The Flask application receives the WSGI request, creates the request and application contexts, matches the request URL against the application's routing map, runs request preprocessing, dispatches the request to the matching view function, and then processes the returned result into a response before running teardown handlers.",
+    "gold_source_files": [
+      "src/flask/app.py",
+      "src/flask/ctx.py",
+      "src/flask/wrappers.py"
+    ]
+  },
+  {
+    "id": "FLK-05",
+    "category": "Dependency/Relationship",
+    "question": "How are Flask's application context, request context, and global objects such as current_app and request related?",
+    "reference_answer": "The application and request contexts hold context-local state for an active request. Objects such as current_app and request are proxies that access the appropriate context-local application or request data for the current execution context.",
+    "gold_source_files": [
+      "src/flask/ctx.py",
+      "src/flask/globals.py"
+    ]
+  },
+  {
+    "id": "FLK-06",
+    "category": "Configuration",
+    "question": "How does a Flask application store and access its configuration values?",
+    "reference_answer": "Flask applications expose a config object through the Flask application instance. The configuration can be populated and updated through the application's configuration API and is used by different Flask subsystems during application execution.",
+    "gold_source_files": [
+      "src/flask/app.py",
+      "src/flask/config.py"
+    ]
+  },
+  {
+    "id": "FLK-07",
+    "category": "Cross-file Reasoning",
+    "question": "How does Flask connect URL routing with the view function that ultimately handles a request?",
+    "reference_answer": "Routes are registered on the Flask application and associated with endpoint/view functions. During request dispatch, Flask uses its URL map to match the incoming request and identifies the endpoint, then invokes the corresponding view function and converts its result into a response.",
+    "gold_source_files": [
+      "src/flask/app.py",
+      "src/flask/sansio/app.py",
+      "src/flask/sansio/scaffold.py"
+    ]
+  },
+  {
+    "id": "FLK-08",
+    "category": "Behavioral",
+    "question": "What is the role of before_request and teardown handlers during the Flask request lifecycle?",
+    "reference_answer": "before_request handlers run before the request is dispatched to the view and can perform preprocessing or return a response early. Teardown handlers execute when request processing is ending and are used for cleanup regardless of whether request processing completed normally or raised an exception.",
+    "gold_source_files": [
+      "src/flask/app.py",
+      "src/flask/sansio/app.py"
+    ]
+  },
+  {
+    "id": "FLK-09",
+    "category": "Unanswerable",
+    "question": "What exact database records will a Flask application create when a user visits an endpoint implemented by an external application that is not part of this repository?",
+    "reference_answer": "The Flask repository cannot determine the exact database records created by an external application because database behavior depends on that application's own view functions, models, database configuration, and runtime data.",
+    "gold_source_files": [
+      "src/flask/app.py"
+    ]
+  },
+  {
+    "id": "FLK-10",
+    "category": "Complex Reasoning",
+    "question": "Trace the Flask request lifecycle from the WSGI entry point through context creation, URL matching, view dispatch, response creation, and teardown.",
+    "reference_answer": "The Flask application receives the WSGI environment and creates the request and application contexts. It matches the request against the URL map, executes request preprocessing, dispatches the matched endpoint, converts the endpoint result into a response, runs response processing and teardown handlers, and finally returns the response through the WSGI interface.",
+    "gold_source_files": [
+      "src/flask/app.py",
+      "src/flask/ctx.py",
+      "src/flask/wrappers.py",
+      "src/flask/sansio/app.py"
+    ]
+  }
+]
+    },
+    {
+      "repo_url": "https://github.com/fastapi/fastapi",
+      "name": "FastAPI",
+      "language": "Python",
+      "questions": [
+  {
+    "id": "API-01",
+    "category": "Architecture",
+    "question": "Explain the overall architecture of the FastAPI repository and identify the main components responsible for building and serving an API application.",
+    "reference_answer": "FastAPI is built as a Python web framework on top of Starlette for web functionality and Pydantic for data validation and serialization. The repository contains the FastAPI application and routing implementation, dependency injection system, parameter handling, security utilities, and OpenAPI schema generation.",
+    "gold_source_files": [
+      "fastapi/applications.py",
+      "fastapi/routing.py",
+      "fastapi/dependencies/",
+      "fastapi/params.py",
+      "fastapi/openapi/"
+    ]
+  },
+  {
+    "id": "API-02",
+    "category": "Implementation",
+    "question": "Where is the FastAPI application class implemented, and what is its relationship with Starlette?",
+    "reference_answer": "The FastAPI application class is implemented in fastapi/applications.py. FastAPI builds on Starlette's ASGI application and routing infrastructure while adding API-specific features such as dependency injection, validation, serialization, and OpenAPI documentation.",
+    "gold_source_files": [
+      "fastapi/applications.py",
+      "fastapi/routing.py"
+    ]
+  },
+  {
+    "id": "API-03",
+    "category": "Function/Class",
+    "question": "Which component represents an API route in FastAPI, and where is route handling implemented?",
+    "reference_answer": "FastAPI's route handling is implemented primarily in fastapi/routing.py. APIRoute represents an API route and extends Starlette's routing concepts to provide FastAPI-specific dependency resolution, request parsing, response validation, and endpoint execution.",
+    "gold_source_files": [
+      "fastapi/routing.py"
+    ]
+  },
+  {
+    "id": "API-04",
+    "category": "Data Flow",
+    "question": "What happens internally when a request reaches a FastAPI endpoint that contains typed path or query parameters?",
+    "reference_answer": "The incoming ASGI request is matched to an API route. FastAPI resolves the route's dependencies and extracts the declared path, query, header, cookie, body, or other parameters. Pydantic-based validation converts and validates the input before the endpoint function is called, after which the result is processed into the response.",
+    "gold_source_files": [
+      "fastapi/routing.py",
+      "fastapi/dependencies/utils.py",
+      "fastapi/params.py"
+    ]
+  },
+  {
+    "id": "API-05",
+    "category": "Dependency/Relationship",
+    "question": "How do FastAPI's dependency injection system, APIRoute, and endpoint function work together?",
+    "reference_answer": "An APIRoute contains information about the endpoint and its dependencies. During request processing, FastAPI solves the dependency graph, obtains the required dependency values, and passes them as arguments to the endpoint function before executing it.",
+    "gold_source_files": [
+      "fastapi/routing.py",
+      "fastapi/dependencies/utils.py",
+      "fastapi/dependencies/models.py"
+    ]
+  },
+  {
+    "id": "API-06",
+    "category": "Configuration",
+    "question": "How does FastAPI generate the OpenAPI schema for an application?",
+    "reference_answer": "FastAPI builds an OpenAPI schema from the application's registered routes, endpoint metadata, request parameters, request bodies, response models, and security definitions. The OpenAPI generation logic is implemented in the fastapi/openapi package and is connected to the FastAPI application.",
+    "gold_source_files": [
+      "fastapi/applications.py",
+      "fastapi/openapi/utils.py",
+      "fastapi/openapi/models.py"
+    ]
+  },
+  {
+    "id": "API-07",
+    "category": "Cross-file Reasoning",
+    "question": "How are Python type annotations connected to request validation and OpenAPI documentation in FastAPI?",
+    "reference_answer": "FastAPI inspects endpoint signatures and type annotations to determine parameter locations and expected types. These definitions are used during dependency solving and request validation, while the same metadata is used to construct OpenAPI schemas and API documentation.",
+    "gold_source_files": [
+      "fastapi/dependencies/utils.py",
+      "fastapi/routing.py",
+      "fastapi/openapi/utils.py",
+      "fastapi/params.py"
+    ]
+  },
+  {
+    "id": "API-08",
+    "category": "Behavioral",
+    "question": "What happens when request data does not satisfy the validation requirements declared by a FastAPI endpoint?",
+    "reference_answer": "FastAPI validates the incoming request data against the declared parameter and model requirements. If validation fails, FastAPI produces a request validation error response rather than calling the endpoint with invalid data.",
+    "gold_source_files": [
+      "fastapi/routing.py",
+      "fastapi/exceptions.py",
+      "fastapi/exception_handlers.py"
+    ]
+  },
+  {
+    "id": "API-09",
+    "category": "Unanswerable",
+    "question": "What exact JSON payload will an external FastAPI application return for an endpoint whose implementation is not present in this repository?",
+    "reference_answer": "The FastAPI framework repository cannot determine the exact payload returned by an external application's endpoint because that depends on the external application's endpoint implementation, response model, and runtime data.",
+    "gold_source_files": [
+      "fastapi/routing.py",
+      "fastapi/applications.py"
+    ]
+  },
+  {
+    "id": "API-10",
+    "category": "Complex Reasoning",
+    "question": "Trace the complete lifecycle of a FastAPI request from route matching through dependency resolution, parameter validation, endpoint execution, response serialization, and return to the ASGI server.",
+    "reference_answer": "The ASGI server passes the incoming request to the FastAPI application, which uses its routing infrastructure to identify the matching APIRoute. FastAPI resolves dependencies and extracts and validates endpoint parameters. The endpoint is then executed with the resolved values. The returned value is validated or serialized according to the configured response behavior, converted into an HTTP response, and returned through the ASGI interface.",
+    "gold_source_files": [
+      "fastapi/applications.py",
+      "fastapi/routing.py",
+      "fastapi/dependencies/utils.py",
+      "fastapi/encoders.py"
+    ]
+  }
+]
+    },
+    {
+      "repo_url": "https://github.com/pandas-dev/pandas",
+      "name": "Pandas",
+      "language": "Python",
+      "questions": [
+  {
+    "id": "PD-01",
+    "category": "Architecture",
+    "question": "Explain the overall architecture of the pandas repository and identify the major components involved in representing and manipulating tabular data.",
+    "reference_answer": "Pandas is organized around core data structures such as Series and DataFrame, indexing and index implementations, array and extension-array abstractions, algorithms, I/O functionality, and computation modules. The repository separates these responsibilities across pandas/core and other specialized packages.",
+    "gold_source_files": [
+      "pandas/core/frame.py",
+      "pandas/core/series.py",
+      "pandas/core/indexes/",
+      "pandas/core/arrays/"
+    ]
+  },
+  {
+    "id": "PD-02",
+    "category": "Implementation",
+    "question": "Where is the DataFrame class implemented, and what is its primary responsibility?",
+    "reference_answer": "The DataFrame class is implemented in pandas/core/frame.py. It represents two-dimensional tabular data with labeled axes and provides operations for selecting, transforming, aggregating, combining, and analyzing that data.",
+    "gold_source_files": [
+      "pandas/core/frame.py"
+    ]
+  },
+  {
+    "id": "PD-03",
+    "category": "Function/Class",
+    "question": "Where is the Series class defined, and how does it differ conceptually from DataFrame?",
+    "reference_answer": "The Series class is defined in pandas/core/series.py. Series represents one-dimensional labeled data, whereas DataFrame represents two-dimensional labeled tabular data composed of rows and columns.",
+    "gold_source_files": [
+      "pandas/core/series.py",
+      "pandas/core/frame.py"
+    ]
+  },
+  {
+    "id": "PD-04",
+    "category": "Data Flow",
+    "question": "What major internal operations occur when a user creates a DataFrame from Python data and then selects a column?",
+    "reference_answer": "The input data is processed by DataFrame construction logic and converted into pandas internal managers and arrays with appropriate indexes and column labels. When a column is selected, DataFrame indexing logic locates the requested column and returns the corresponding one-dimensional Series representation.",
+    "gold_source_files": [
+      "pandas/core/frame.py",
+      "pandas/core/internals/",
+      "pandas/core/indexing.py"
+    ]
+  },
+  {
+    "id": "PD-05",
+    "category": "Dependency/Relationship",
+    "question": "How are DataFrame, Series, Index, and pandas internal array structures related to one another?",
+    "reference_answer": "DataFrame and Series use indexes to label their axes and rely on internal data structures and arrays to store values. A DataFrame organizes multiple columns of data, while a Series represents a single labeled dimension. Index objects provide axis labels and alignment behavior.",
+    "gold_source_files": [
+      "pandas/core/frame.py",
+      "pandas/core/series.py",
+      "pandas/core/indexes/",
+      "pandas/core/internals/"
+    ]
+  },
+  {
+    "id": "PD-06",
+    "category": "Configuration",
+    "question": "How does pandas manage configurable options such as display and computation settings?",
+    "reference_answer": "Pandas provides an options system that allows configurable behavior to be registered, retrieved, and modified. The option configuration implementation is primarily contained in pandas/_config, with user-facing functions such as get_option and set_option.",
+    "gold_source_files": [
+      "pandas/_config/config.py",
+      "pandas/_config/",
+      "pandas/__init__.py"
+    ]
+  },
+  {
+    "id": "PD-07",
+    "category": "Cross-file Reasoning",
+    "question": "How does DataFrame column selection connect the DataFrame implementation with pandas indexing and Series creation?",
+    "reference_answer": "DataFrame selection is implemented through indexing and item-access logic in the DataFrame implementation. The selection machinery resolves the requested column label and retrieves the underlying data, which is then represented as a Series with the appropriate index and name.",
+    "gold_source_files": [
+      "pandas/core/frame.py",
+      "pandas/core/indexing.py",
+      "pandas/core/series.py"
+    ]
+  },
+  {
+    "id": "PD-08",
+    "category": "Behavioral",
+    "question": "What happens when a user selects a column from a DataFrame using a single column label?",
+    "reference_answer": "When a single existing column label is selected, pandas generally returns a Series representing that column, preserving the DataFrame's row index and using the selected column label as the Series name.",
+    "gold_source_files": [
+      "pandas/core/frame.py",
+      "pandas/core/indexing.py",
+      "pandas/core/series.py"
+    ]
+  },
+  {
+    "id": "PD-09",
+    "category": "Unanswerable",
+    "question": "What exact values will a DataFrame contain when it is constructed from a Python object whose runtime contents are not provided in this repository?",
+    "reference_answer": "The pandas repository cannot determine the exact resulting values because they depend on the runtime input object supplied by the user. The framework defines how the data is interpreted and stored, but not the contents of an external runtime object.",
+    "gold_source_files": [
+      "pandas/core/frame.py"
+    ]
+  },
+  {
+    "id": "PD-10",
+    "category": "Complex Reasoning",
+    "question": "Trace how pandas represents tabular data from DataFrame construction through column selection, including the roles of indexes, internal data structures, and Series.",
+    "reference_answer": "DataFrame construction interprets the supplied data and establishes row and column indexes while organizing the values in pandas internal data structures. When a column is selected, DataFrame indexing logic identifies the relevant axis label and underlying data, then exposes that one-dimensional data as a Series associated with the original row index.",
+    "gold_source_files": [
+      "pandas/core/frame.py",
+      "pandas/core/indexing.py",
+      "pandas/core/series.py",
+      "pandas/core/internals/"
+    ]
+  }
+]
+    },
+    {
+      "repo_url": "https://github.com/scikit-learn/scikit-learn",
+      "name": "Scikit-learn",
+      "language": "Python",
+      "questions": [
+  {
+    "id": "SK-01",
+    "category": "Architecture",
+    "question": "Explain the overall architecture of the scikit-learn repository and identify the major components used to implement machine learning estimators and utilities.",
+    "reference_answer": "Scikit-learn is organized into modules for supervised learning, unsupervised learning, preprocessing, model selection, metrics, pipelines, datasets, and utilities. Estimators follow common interfaces such as fit and predict, while shared utilities and validation functions support consistent behavior across algorithms.",
+    "gold_source_files": [
+      "sklearn/base.py",
+      "sklearn/model_selection/",
+      "sklearn/preprocessing/",
+      "sklearn/metrics/",
+      "sklearn/utils/"
+    ]
+  },
+  {
+    "id": "SK-02",
+    "category": "Implementation",
+    "question": "Where is the common estimator interface implemented, and what functionality does it provide to machine learning estimators?",
+    "reference_answer": "The common estimator infrastructure is implemented in sklearn/base.py. It provides base classes and utilities that establish common estimator behavior, parameter handling, cloning, and conventions used throughout scikit-learn.",
+    "gold_source_files": [
+      "sklearn/base.py"
+    ]
+  },
+  {
+    "id": "SK-03",
+    "category": "Function/Class",
+    "question": "What is the role of BaseEstimator in scikit-learn, and where is it defined?",
+    "reference_answer": "BaseEstimator is defined in sklearn/base.py. It provides common functionality for estimator parameter inspection and management and forms part of the common interface followed by scikit-learn estimators.",
+    "gold_source_files": [
+      "sklearn/base.py"
+    ]
+  },
+  {
+    "id": "SK-04",
+    "category": "Data Flow",
+    "question": "What major steps occur when a scikit-learn estimator is trained using its fit method?",
+    "reference_answer": "The estimator receives training data through fit, validates and converts the input as required by the estimator, computes or learns the necessary model parameters, and stores the fitted state on the estimator instance. The resulting fitted estimator can then be used for prediction or transformation.",
+    "gold_source_files": [
+      "sklearn/base.py",
+      "sklearn/utils/validation.py"
+    ]
+  },
+  {
+    "id": "SK-05",
+    "category": "Dependency/Relationship",
+    "question": "How are estimators, transformers, pipelines, and validation utilities related in scikit-learn?",
+    "reference_answer": "Estimators implement learning operations such as fit and prediction. Transformers additionally provide transform behavior. Pipelines compose multiple estimators and transformers into a sequence, while validation utilities provide shared input checking and consistency mechanisms used by these components.",
+    "gold_source_files": [
+      "sklearn/base.py",
+      "sklearn/pipeline.py",
+      "sklearn/utils/validation.py"
+    ]
+  },
+  {
+    "id": "SK-06",
+    "category": "Configuration",
+    "question": "How does scikit-learn expose and manage estimator parameters?",
+    "reference_answer": "Scikit-learn estimators expose parameters through constructor arguments and the common get_params and set_params mechanisms provided by the estimator infrastructure. This allows parameters to be inspected and modified consistently and supports model selection tools such as grid search.",
+    "gold_source_files": [
+      "sklearn/base.py",
+      "sklearn/model_selection/"
+    ]
+  },
+  {
+    "id": "SK-07",
+    "category": "Cross-file Reasoning",
+    "question": "How does a Pipeline connect preprocessing transformers with a final estimator during model fitting and prediction?",
+    "reference_answer": "A Pipeline stores a sequence of transformers followed by a final estimator. During fitting, each transformer is fitted and transforms the data before the transformed output is passed to the next step. The final estimator is then fitted on the resulting data. During prediction, the transformers process the input in sequence before the final estimator produces predictions.",
+    "gold_source_files": [
+      "sklearn/pipeline.py",
+      "sklearn/base.py"
+    ]
+  },
+  {
+    "id": "SK-08",
+    "category": "Behavioral",
+    "question": "What happens if an estimator is asked to predict before it has been fitted?",
+    "reference_answer": "Scikit-learn estimators generally check whether the required fitted attributes exist before prediction. If the estimator has not been fitted, the appropriate validation logic raises an error indicating that the estimator must be fitted before prediction.",
+    "gold_source_files": [
+      "sklearn/utils/validation.py",
+      "sklearn/base.py"
+    ]
+  },
+  {
+    "id": "SK-09",
+    "category": "Unanswerable",
+    "question": "What exact predictions will a scikit-learn estimator produce for a dataset whose input values are not provided?",
+    "reference_answer": "The scikit-learn repository cannot determine exact predictions without the trained estimator state and the actual input data. Predictions depend on both the fitted model parameters and the runtime input.",
+    "gold_source_files": [
+      "sklearn/base.py",
+      "sklearn/utils/validation.py"
+    ]
+  },
+  {
+    "id": "SK-10",
+    "category": "Complex Reasoning",
+    "question": "Trace how a preprocessing transformer and machine learning estimator work together inside a scikit-learn Pipeline from fitting through prediction.",
+    "reference_answer": "During fitting, the Pipeline processes each transformer sequentially, fitting each transformer and transforming the training data before passing the result to the next step. The final estimator is fitted on the transformed data. During prediction, the same fitted transformers transform the new input in sequence, and the final estimator receives the transformed data to generate predictions.",
+    "gold_source_files": [
+      "sklearn/pipeline.py",
+      "sklearn/base.py",
+      "sklearn/utils/validation.py"
+    ]
+  }
+]
+    },
+    {
+      "repo_url": "https://github.com/spring-projects/spring-petclinic",
+      "name": "Spring PetClinic",
+      "language": "Java",
+      "questions": [
+  {
+    "id": "SPC-01",
+    "category": "Architecture",
+    "question": "Explain the overall architecture of the Spring PetClinic repository and identify the major layers of the application.",
+    "reference_answer": "Spring PetClinic is organized as a Spring Boot web application using a layered architecture. The application contains domain entities, repositories for persistence, services for business operations, controllers for web requests, and presentation resources for the user interface.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/",
+      "src/main/resources/",
+      "pom.xml"
+    ]
+  },
+  {
+    "id": "SPC-02",
+    "category": "Implementation",
+    "question": "Where are the web controllers implemented in Spring PetClinic, and what is their responsibility?",
+    "reference_answer": "The web controllers are implemented in the application's web/controller area. They handle incoming HTTP requests, interact with the application's domain and service or repository layers, and select the appropriate view or response.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/owner/",
+      "src/main/java/org/springframework/samples/petclinic/vet/"
+    ]
+  },
+  {
+    "id": "SPC-03",
+    "category": "Function/Class",
+    "question": "Where is the Owner domain object defined, and what information does it represent?",
+    "reference_answer": "The Owner domain object is defined in the owner package and represents an owner in the PetClinic domain. It contains owner-related information and relationships with pets, allowing the application to manage owners and their pets.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/owner/Owner.java"
+    ]
+  },
+  {
+    "id": "SPC-04",
+    "category": "Data Flow",
+    "question": "What happens when a user searches for an owner in the PetClinic application?",
+    "reference_answer": "The request is received by the appropriate owner controller, which uses the owner-related application logic and repository to search for matching owners. The resulting owner data is then passed to the web view for presentation.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "src/main/resources/templates/owners/"
+    ]
+  },
+  {
+    "id": "SPC-05",
+    "category": "Dependency/Relationship",
+    "question": "How are the Owner entity, OwnerRepository, OwnerController, and database related?",
+    "reference_answer": "The Owner entity represents the owner domain data. OwnerRepository provides persistence operations for owners and interacts with the database through Spring Data JPA. OwnerController handles web requests and uses the repository or application layer to retrieve and modify owner information.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java"
+    ]
+  },
+  {
+    "id": "SPC-06",
+    "category": "Configuration",
+    "question": "How is the Spring Boot application configured, and where are the main application configuration files located?",
+    "reference_answer": "The Spring Boot application is configured through the main application class and resource configuration files. Configuration can include database connectivity, server behavior, profiles, and application properties. The main resources are located under src/main/resources.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java",
+      "src/main/resources/application.properties",
+      "src/main/resources/"
+    ]
+  },
+  {
+    "id": "SPC-07",
+    "category": "Cross-file Reasoning",
+    "question": "How does an owner-related HTTP request connect the controller, repository, domain model, and HTML view in Spring PetClinic?",
+    "reference_answer": "The controller receives the HTTP request and invokes the appropriate repository or application logic. The repository retrieves or updates Owner domain objects through the persistence layer. The controller places the resulting domain data into the model and returns a view name, which is rendered using the corresponding HTML template.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "src/main/resources/templates/owners/"
+    ]
+  },
+  {
+    "id": "SPC-08",
+    "category": "Behavioral",
+    "question": "What happens when a new pet is added to an existing owner in the PetClinic application?",
+    "reference_answer": "The application receives the pet information through the owner and pet web workflow, associates the new Pet object with the appropriate Owner, validates the submitted data, and persists the resulting domain state through the persistence layer.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/owner/",
+      "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/Owner.java"
+    ]
+  },
+  {
+    "id": "SPC-09",
+    "category": "Unanswerable",
+    "question": "What exact name and address will be displayed for an owner whose runtime database record is not included in this repository?",
+    "reference_answer": "The repository cannot determine the exact name or address because those values depend on runtime database data that is not part of the repository source code.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java"
+    ]
+  },
+  {
+    "id": "SPC-10",
+    "category": "Complex Reasoning",
+    "question": "Trace the complete flow of an owner-related request from the incoming HTTP request through the controller and persistence layer to the rendered web page.",
+    "reference_answer": "The HTTP request is mapped to an owner controller method. The controller obtains or modifies Owner domain objects through the repository and persistence layer. The resulting data is added to the model and the controller selects the appropriate view. Spring's web framework renders the corresponding template using the model data and returns the generated HTML response.",
+    "gold_source_files": [
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "src/main/resources/templates/owners/"
+    ]
+  }
+]
+    }
+  ]
+}

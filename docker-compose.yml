@@ -1,0 +1,23 @@
+version: "3.8"
+
+# CodeInsight AI - optional Docker Compose for the Neo4j knowledge graph.
+# Run: docker compose up -d
+# Set NEO4J_PASSWORD in the environment before starting Docker Compose.
+
+services:
+  neo4j:
+    image: neo4j:5.24-community
+    container_name: codeinsight-neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - "NEO4J_AUTH=neo4j/${NEO4J_PASSWORD:?Set NEO4J_PASSWORD before starting Docker Compose}"
+      - NEO4J_PLUGINS=[]
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+
+volumes:
+  neo4j_data:
+  neo4j_logs:

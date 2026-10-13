@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CodeInsight AI — Intelligent Software Repository Analysis Using RAG</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo"></span>
+      <div>
+        <h1>CodeInsight AI</h1>
+        <p class="tagline">Intelligent Software Repository Analysis Using RAG</p>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+      <button class="nav-btn" data-view="qa">Ask a Question</button>
+      <button class="nav-btn" data-view="evaluation">Evaluation</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- DASHBOARD / REPOSITORY INPUT + OVERVIEW -->
+    <section id="view-dashboard" class="view active">
+      <div class="card">
+        <h2>1. Analyze a Repository</h2>
+        <p class="hint">Paste a public GitHub repository URL. Supported languages: Python, JavaScript, TypeScript, Java.</p>
+        <form id="analyze-form">
+          <input type="text" id="repo-url" placeholder="https://github.com/owner/repo" required />
+          <input type="text" id="repo-branch" placeholder="branch (optional)" />
+          <button type="submit">Analyze Repository</button>
+        </form>
+        <div id="analyze-error" class="error hidden"></div>
+      </div>
+
+      <div class="card" id="status-card" style="display:none;">
+        <h2>2. Analysis Status</h2>
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        <p id="status-text">Waiting...</p>
+      </div>
+
+      <div class="card" id="overview-card" style="display:none;">
+        <h2>3. Repository Overview</h2>
+        <div id="overview-grid" class="overview-grid"></div>
+      </div>
+    </section>
+
+    <!-- Q&A -->
+    <section id="view-qa" class="view">
+      <div class="card">
+        <h2>Ask a Question About the Repository</h2>
+        <p class="hint" id="active-repo-hint">No repository selected yet — analyze one on the Dashboard tab first.</p>
+        <form id="ask-form">
+          <textarea id="question-input" rows="2" placeholder="e.g. Explain the login process." required></textarea>
+          <button type="submit">Ask</button>
+        </form>
+      </div>
+
+      <div id="qa-results"></div>
+    </section>
+
+    <!-- EVALUATION -->
+    <section id="view-evaluation" class="view">
+      <div class="card">
+        <h2>Evaluation / Results Dashboard</h2>
+        <p class="hint">Aggregate AI Response Verification metrics for the active repository.</p>
+        <button id="refresh-eval">Refresh</button>
+        <table class="eval-table">
+          <tbody id="eval-body">
+            <tr><td colspan="2">No data yet — ask some questions first.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>CodeInsight AI — MCA Academic Project.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{
+  "status": "partial_preliminary_evaluation",
+  "note": "These are the 10 questions that completed before the evaluation was interrupted during Pandas repository analysis. Values are copied directly from the live evaluation output.",
+  "results": [
+    {
+      "repo": "Full Stack FastAPI Template",
+      "repo_url": "https://github.com/tiangolo/full-stack-fastapi-template",
+      "question_id": "FST-01",
+      "category": "Architecture",
+      "faithfulness": 0.17,
+      "answer_relevancy": 0.06,
+      "response_time_seconds": 18.84
+    },
+    {
+      "repo": "Full Stack FastAPI Template",
+      "repo_url": "https://github.com/tiangolo/full-stack-fastapi-template",
+      "question_id": "FST-07",
+      "category": "Cross-file Reasoning",
+      "faithfulness": 0.19,
+      "answer_relevancy": 0.06,
+      "response_time_seconds": 5.72
+    },
+    {
+      "repo": "Requests",
+      "repo_url": "https://github.com/psf/requests",
+      "question_id": "REQ-02",
+      "category": "Implementation",
+      "faithfulness": 0.15,
+      "answer_relevancy": 0.00,
+      "response_time_seconds": 15.17
+    },
+    {
+      "repo": "Requests",
+      "repo_url": "https://github.com/psf/requests",
+      "question_id": "REQ-10",
+      "category": "Complex Reasoning",
+      "faithfulness": 0.66,
+      "answer_relevancy": 0.41,
+      "response_time_seconds": 5.95
+    },
+    {
+      "repo": "Express",
+      "repo_url": "https://github.com/expressjs/express",
+      "question_id": "EXP-03",
+      "category": "Function/Class",
+      "faithfulness": 0.56,
+      "answer_relevancy": 0.75,
+      "response_time_seconds": 6.21
+    },
+    {
+      "repo": "Express",
+      "repo_url": "https://github.com/expressjs/express",
+      "question_id": "EXP-10",
+      "category": "Complex Reasoning",
+      "faithfulness": 0.42,
+      "answer_relevancy": 0.81,
+      "response_time_seconds": 6.27
+    },
+    {
+      "repo": "Flask",
+      "repo_url": "https://github.com/pallets/flask",
+      "question_id": "FLK-04",
+      "category": "Data Flow",
+      "faithfulness": 0.12,
+      "answer_relevancy": 0.00,
+      "response_time_seconds": 18.33
+    },
+    {
+      "repo": "Flask",
+      "repo_url": "https://github.com/pallets/flask",
+      "question_id": "FLK-05",
+      "category": "Dependency/Relationship",
+      "faithfulness": 0.80,
+      "answer_relevancy": 0.93,
+      "response_time_seconds": 6.07
+    },
+    {
+      "repo": "FastAPI",
+      "repo_url": "https://github.com/fastapi/fastapi",
+      "question_id": "API-05",
+      "category": "Dependency/Relationship",
+      "faithfulness": 0.69,
+      "answer_relevancy": 0.87,
+      "response_time_seconds": 31.84
+    },
+    {
+      "repo": "FastAPI",
+      "repo_url": "https://github.com/fastapi/fastapi",
+      "question_id": "API-10",
+      "category": "Complex Reasoning",
+      "faithfulness": 0.49,
+      "answer_relevancy": 0.74,
+      "response_time_seconds": 6.24
+    }
+  ]
+}
